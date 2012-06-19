@@ -1,0 +1,150 @@
+{
+    "id": "ExtBox1-ext-gen28985",
+    "type": "dataitem",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "baseCls": "x-data-item",
+        "cls": [
+            "x-list-item"
+        ],
+        "designer|userClassName": "myContactListItem",
+        "designer|userAlias": "myContactListItem"
+    },
+    "customConfigs": [],
+    "designerId": "ed8e32a8-2bee-4972-82cc-60fdcab2e506",
+    "$viewOrder": 7,
+    "cn": [
+        {
+            "id": "ExtBox1-ext-gen28989",
+            "type": "container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": "x-list-item-label",
+                "itemId": "contactListItemDetail",
+                "designer|userClassName": "MyContainer5"
+            },
+            "customConfigs": [],
+            "cn": [
+                {
+                    "id": "ExtBox1-ext-gen28993",
+                    "type": "button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "right",
+                        "hidden": true,
+                        "itemId": "deleteContact",
+                        "ui": "decline-round",
+                        "text": "delete",
+                        "designer|userClassName": "MyButton12"
+                    },
+                    "customConfigs": [],
+                    "cn": [
+                        {
+                            "id": "ExtBox1-ext-gen28997",
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onContactDeleteButtonTap",
+                                "implHandler": [
+                                    "",
+                                    "//bug in framework, stops propagation of event, without this sometimes both the itemtap ",
+                                    "//and deletebuttontap would get fired after a previous record is deleted, this.callParent in updateRecords fixes this also so this might not be needed",
+                                    "e.stopEvent(); ",
+                                    "",
+                                    "var debts = this.getRecord().debts();",
+                                    "var debtStore = Ext.getStore('Debts');",
+                                    "var paymentStore = Ext.getStore('Payments');",
+                                    "",
+                                    "//remove payments from each debt",
+                                    "debts.each(function(item,index,length){",
+                                    "    var payments = item.payments();",
+                                    "    paymentStore.remove(payments.getData().items); //remove from store",
+                                    "    payments.removeAll(); //remove from associated store",
+                                    "    paymentStore.sync(); //sync payments with localStorage",
+                                    "});",
+                                    "",
+                                    "//remove debts from person",
+                                    "debtStore.remove(debts.getData().items); //remove from store",
+                                    "debts.removeAll(); //remove from associated store",
+                                    "debtStore.sync(); //sync debts with localStorage",
+                                    "",
+                                    "//removes person from store ",
+                                    "var dataview = this.up('dataview');",
+                                    "dataview.getStore().remove(this.getRecord()); //remove person",
+                                    "dataview.getStore().sync(); //sync with localStorage",
+                                    "",
+                                    "//update the summary",
+                                    "Payback.app.application.getController('Payback.controller.Summary').updateSummary();"
+                                ],
+                                "name": "tap",
+                                "designer|userClassName": "onContactDeleteButtonTap"
+                            },
+                            "customConfigs": []
+                        }
+                    ]
+                },
+                {
+                    "id": "ExtBox1-ext-gen10082",
+                    "type": "template",
+                    "reference": {
+                        "name": "tpl",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "tpl1 <i class=\"xds-suffix xds-suffix-loaded\">&nbsp;contactListItemDetail&nbsp;</i>",
+                        "implHandler": [
+                            "<div>",
+                            "{name}  ${balance}<br>",
+                            "{phone} {email} ",
+                            "</div>"
+                        ],
+                        "designer|userClassName": "tpl"
+                    },
+                    "customConfigs": []
+                }
+            ]
+        },
+        {
+            "id": "ExtBox1-ext-gen29002",
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "updateRecord",
+                "designer|params": [
+                    "newRecord",
+                    "oldeRecord"
+                ],
+                "implHandler": [
+                    "//bug in framework, this stops propagation of event in deleteButtonTap and allows the record to be deleted from the store",
+                    "this.callParent(arguments);",
+                    "",
+                    "newRecord.getData(true);",
+                    "this.child('component').setData(newRecord.data);"
+                ],
+                "designer|userClassName": "updateRecord"
+            },
+            "customConfigs": []
+        }
+    ]
+}

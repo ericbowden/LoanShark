@@ -1,0 +1,149 @@
+{
+    "id": "ExtBox1-ext-gen6975",
+    "type": "dataitem",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "baseCls": "x-data-item",
+        "cls": [
+            "x-list-item"
+        ],
+        "designer|userClassName": "myDebtListItem",
+        "designer|userAlias": "myDebtListItem"
+    },
+    "customConfigs": [],
+    "designerId": "9290d4e2-55ef-4f81-b844-ff9efd351b2b",
+    "$viewOrder": 5,
+    "cn": [
+        {
+            "id": "ExtBox1-ext-gen20879",
+            "type": "container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": "x-list-item-label",
+                "itemId": "debtListItemDetail",
+                "designer|userClassName": "MyContainer5"
+            },
+            "customConfigs": [],
+            "cn": [
+                {
+                    "id": "ExtBox1-ext-gen7405",
+                    "type": "button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "right",
+                        "hidden": true,
+                        "itemId": "deleteDebt",
+                        "ui": "decline-round",
+                        "text": "delete",
+                        "designer|userClassName": "MyButton12"
+                    },
+                    "customConfigs": [],
+                    "cn": [
+                        {
+                            "id": "ExtBox1-ext-gen33855",
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onDebtDeleteButtonTap",
+                                "implHandler": [
+                                    "",
+                                    "//bug in framework, stops propagation of event, without this sometimes both the itemtap ",
+                                    "//and deletebuttontap would get fired after a previous record is deleted. this.callParent in updateRecords fixes this also so this might not be needed",
+                                    "e.stopEvent(); ",
+                                    "",
+                                    "var dataview = this.up('dataview');",
+                                    "var debt = this.getRecord();",
+                                    "",
+                                    "//remove payments from debt",
+                                    "var payments = debt.payments();",
+                                    "var paymentStore = Ext.getStore('Payments');",
+                                    "paymentStore.remove(payments.getData().items); //remove from store",
+                                    "payments.removeAll(); //remove from associated store",
+                                    "paymentStore.sync(); //sync payments with localStorage",
+                                    "",
+                                    "//remove debt from debt store, and sync with localStorage",
+                                    "debt.getPerson().debts().remove(debt);",
+                                    "dataview.getStore().remove(debt);",
+                                    "dataview.getStore().sync();",
+                                    "",
+                                    "debt.getPerson().calcBalance(); //calc balance",
+                                    "",
+                                    "//update the summary",
+                                    "Payback.app.application.getController('Payback.controller.Summary').updateSummary();",
+                                    "",
+                                    "button.hide(); //bug, button will appear on other debts when deleting a debt from the contact detail",
+                                    "",
+                                    "//refresh DataView",
+                                    "dataview.refresh();"
+                                ],
+                                "name": "tap",
+                                "designer|userClassName": "onDebtDeleteButtonTap"
+                            },
+                            "customConfigs": []
+                        }
+                    ]
+                },
+                {
+                    "id": "ExtBox1-ext-gen8051",
+                    "type": "template",
+                    "reference": {
+                        "name": "tpl",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "tpl2 <i class=\"xds-suffix xds-suffix-loaded\">&nbsp;debtListItemDetail&nbsp;</i>",
+                        "implHandler": [
+                            "<div>",
+                            "{[Ext.Date.format(values.date,'M d')]} -",
+                            "<tpl for=\"Person\">{name}</tpl>",
+                            "- {reason} - ${balance}</div>"
+                        ],
+                        "designer|userClassName": "tpl"
+                    },
+                    "customConfigs": []
+                }
+            ]
+        },
+        {
+            "id": "ExtBox1-ext-gen3339",
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "updateRecord",
+                "designer|params": [
+                    "newRecord, oldRecord"
+                ],
+                "implHandler": [
+                    "//bug in framework, this stops propagation of event in deleteButtonTap and allows the record to be deleted from the store",
+                    "this.callParent(arguments);",
+                    "",
+                    "newRecord.getData(true);",
+                    "this.child('component').setData(newRecord.data);"
+                ],
+                "designer|userClassName": "updateRecord"
+            },
+            "customConfigs": []
+        }
+    ]
+}

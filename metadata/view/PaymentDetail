@@ -1,0 +1,270 @@
+{
+    "id": "ExtBox1-ext-gen25971",
+    "type": "formpanel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoDestroy": false,
+        "designer|userClassName": "PaymentDetail",
+        "designer|userAlias": "PaymentDetail"
+    },
+    "customConfigs": [],
+    "designerId": "2b83fda6-da12-4c2f-a259-389ef8f3e683",
+    "$viewOrder": 3,
+    "cn": [
+        {
+            "id": "ExtBox1-ext-gen25975",
+            "type": "titlebar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "title": "Payment Details",
+                "designer|userClassName": "MyTitleBar2"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen25981",
+            "type": "toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "bottom",
+                "designer|userClassName": "MyToolbar"
+            },
+            "customConfigs": [],
+            "cn": [
+                {
+                    "id": "ExtBox1-ext-gen25985",
+                    "type": "button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "id": "cancelPayment",
+                        "ui": "decline",
+                        "text": "Cancel",
+                        "designer|userClassName": "MyButton1"
+                    },
+                    "customConfigs": []
+                },
+                {
+                    "id": "ExtBox1-ext-gen25990",
+                    "type": "spacer",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|userClassName": "MySpacer"
+                    },
+                    "customConfigs": []
+                },
+                {
+                    "id": "ExtBox1-ext-gen25995",
+                    "type": "button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "id": "savePayment",
+                        "itemId": null,
+                        "ui": "confirm",
+                        "text": "Save",
+                        "designer|userClassName": "MyButton2"
+                    },
+                    "customConfigs": []
+                }
+            ]
+        },
+        {
+            "id": "ExtBox1-ext-gen26002",
+            "type": "fieldset",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "title": "Payment Information",
+                "designer|userClassName": "MyFieldSet"
+            },
+            "customConfigs": [],
+            "cn": [
+                {
+                    "id": "ExtBox1-ext-gen26006",
+                    "type": "numberfield",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "itemId": "mynumberfield1",
+                        "label": "Amount",
+                        "name": "amount",
+                        "designer|userClassName": "MyNumberField1"
+                    },
+                    "customConfigs": [],
+                    "cn": [
+                        {
+                            "id": "ExtBox1-ext-gen7921",
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onMynumberfield1Focus",
+                                "implHandler": [
+                                    "",
+                                    "//android work around to hide keyboard.",
+                                    "if (Ext.os.is.Android)",
+                                    "    Ext.Viewport.element.on({tap:function(){",
+                                    "        var field = document.createElement('input');",
+                                    "        field.setAttribute('type', 'text');",
+                                    "        document.body.appendChild(field);",
+                                    "        ",
+                                    "        setTimeout(function() {",
+                                    "            field.focus();  ",
+                                    "            ",
+                                    "            setTimeout(function() {",
+                                    "                field.setAttribute('style', 'display:none;');",
+                                    "                field.parentNode.removeChild(field);",
+                                    "            }, 100);",
+                                    "        }, 50);",
+                                    "    }, single:true});"
+                                ],
+                                "name": "focus",
+                                "designer|userClassName": "onMynumberfield1Focus"
+                            },
+                            "customConfigs": []
+                        }
+                    ]
+                },
+                {
+                    "id": "ExtBox1-ext-gen28867",
+                    "type": "datepickerfield",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "label": "Date",
+                        "name": "date",
+                        "placeHolder": "mm/dd/yyyy",
+                        "designer|userClassName": "MyDateField"
+                    },
+                    "customConfigs": [],
+                    "cn": [
+                        {
+                            "id": "ExtBox1-ext-gen28876",
+                            "type": "datepicker",
+                            "reference": {
+                                "name": "picker",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|userClassName": "MyDatePicker"
+                            },
+                            "customConfigs": [],
+                            "cn": [
+                                {
+                                    "id": "ExtBox1-ext-gen28887",
+                                    "type": "button",
+                                    "reference": {
+                                        "name": "doneButton",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "text": "Done",
+                                        "designer|userClassName": "MyButton7"
+                                    },
+                                    "customConfigs": []
+                                },
+                                {
+                                    "id": "ExtBox1-ext-gen28895",
+                                    "type": "button",
+                                    "reference": {
+                                        "name": "cancelButton",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "text": "Cancel",
+                                        "designer|userClassName": "MyButton8"
+                                    },
+                                    "customConfigs": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "ExtBox1-ext-gen37855",
+            "type": "fieldset",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "title": "Memo",
+                "designer|userClassName": "MyFieldSet3"
+            },
+            "customConfigs": [],
+            "cn": [
+                {
+                    "id": "ExtBox1-ext-gen37864",
+                    "type": "textareafield",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "label": null,
+                        "name": "memo",
+                        "designer|userClassName": "MyTextArea"
+                    },
+                    "customConfigs": []
+                }
+            ]
+        },
+        {
+            "id": "ExtBox1-ext-gen5589",
+            "type": "hiddenfield",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "debt_id",
+                "designer|userClassName": "MyHiddenField"
+            },
+            "customConfigs": []
+        }
+    ]
+}

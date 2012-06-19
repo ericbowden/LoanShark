@@ -1,0 +1,316 @@
+{
+    "id": "ExtBox1-ext-gen51189",
+    "type": "controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "stores": [
+            "PeopleStore"
+        ],
+        "views": [
+            "ContactDetail"
+        ],
+        "designer|userClassName": "Contact"
+    },
+    "customConfigs": [],
+    "designerId": "4924b61f-714b-45ce-aa6a-944c48e631e4",
+    "$viewOrder": 0,
+    "cn": [
+        {
+            "id": "ExtBox1-ext-gen51194",
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onAddContactTap",
+                "implHandler": [
+                    "",
+                    "var form = this.getContactDetail();",
+                    "form.reset(); //clear form",
+                    "form.setRecord(null); //clear record from form",
+                    "",
+                    "//clears filter placed on Debt store",
+                    "Ext.getStore('Debts').clearFilter();",
+                    "",
+                    "//hides buttons and debt data view on new contacts",
+                    "form.down('#addDebt').hide();",
+                    "form.down('dataview').hide();",
+                    "",
+                    "//set active item",
+                    "Ext.Viewport.setActiveItem(this.getContactDetail());"
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "#addContact",
+                "designer|userClassName": "onAddContactTap"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen18558",
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onSaveContactTap",
+                "implHandler": [
+                    "var form = this.getContactDetail(),",
+                    "    record = form.getRecord(),",
+                    "    values = form.getValues();",
+                    "",
+                    "//validate",
+                    "var isValid = function(record) {",
+                    "    var errors = record.validate();",
+                    "",
+                    "    if(errors.isValid())// || record.get('email') === \"\")",
+                    "    return true;",
+                    "    else {",
+                    "        Ext.Msg.alert('Error', 'Invalid Email address', Ext.emptyFn);",
+                    "        return false;",
+                    "    }",
+                    "",
+                    "};",
+                    "",
+                    "if(record) { //if editing record",
+                    "    record.set(values);",
+                    "",
+                    "    //validate",
+                    "    // if(!isValid(record))",
+                    "    //    return;",
+                    "",
+                    "    record.save();",
+                    "",
+                    "    if (record.isModified('name')) {",
+                    "        Ext.getStore('Debts').removeAll(); //bug in framework, these two lines update the debts with the new person name.",
+                    "        Ext.getStore('Debts').load();",
+                    "    }",
+                    "",
+                    "} else { //if new record",
+                    "",
+                    "    record = Ext.create('Payback.model.Person',values);",
+                    "",
+                    "    //validate",
+                    "    //if(!isValid(record)) {",
+                    "    //    return;",
+                    "    //}",
+                    "",
+                    "    Ext.getStore('People').add(record);",
+                    "    Ext.getStore('People').sync();",
+                    "}",
+                    "",
+                    "//update summary",
+                    "this.getApplication().getController('Summary').updateSummary();",
+                    "",
+                    "//clear form",
+                    "this.getContactDetail().reset();",
+                    "",
+                    "//set active item",
+                    "Ext.Viewport.setActiveItem(0);"
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "#saveContact",
+                "designer|userClassName": "onSaveContactTap"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen13510",
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onCancelContactTap",
+                "implHandler": [
+                    "//delete form",
+                    "this.getContactDetail().reset();",
+                    "",
+                    "//set active item",
+                    "Ext.Viewport.setActiveItem(0);"
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "#cancelContact",
+                "designer|userClassName": "onCancelContactTap"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen31779",
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onDataviewItemSwipe",
+                "implHandler": [
+                    "var deleteButtons = dataview.query('button');",
+                    "",
+                    "//hide other delete buttons",
+                    "for (var i=0; i < deleteButtons.length; i++) {",
+                    "    deleteButtons[i].hide();",
+                    "}",
+                    "",
+                    "//show item delete button",
+                    "target.query('button')[0].show();",
+                    "",
+                    "//hides delete button if anywhere else is tapped",
+                    "Ext.Viewport.element.on({tap:function(){",
+                    "    target.query('button')[0].hide();",
+                    "}, single:true});"
+                ],
+                "name": "itemswipe",
+                "designer|targetType": "Ext.dataview.DataView",
+                "designer|controlQuery": "#myContactDataView",
+                "designer|userClassName": "onDataviewItemSwipe"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen4127",
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "ContactDetail",
+                "selector": "ContactDetail",
+                "xtype": "ContactDetail",
+                "autoCreate": true,
+                "designer|userClassName": "ContactDetail"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen14311",
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onDataviewItemTap",
+                "implHandler": [
+                    "var form = this.getContactDetail(),",
+                    "    debtDataView = this.getMyDebtDataView();",
+                    "",
+                    "//set the record for the form",
+                    "form.setRecord(record);",
+                    "",
+                    "//clears filter on store and sets a new one, this shows only the payments associated with the debt tapped",
+                    "Ext.getStore('Debts').clearFilter();",
+                    "Ext.getStore('Debts').filter({property: \"person_id\", value: record.get('id')});",
+                    "",
+                    "//refresh DataView",
+                    "debtDataView.refresh();",
+                    "",
+                    "//show items if hidden",
+                    "debtDataView.show();",
+                    "form.down('#addDebt').show();",
+                    "",
+                    "//set active item",
+                    "Ext.Viewport.setActiveItem(form);"
+                ],
+                "name": "itemtap",
+                "designer|targetType": "Ext.dataview.List",
+                "designer|controlQuery": "#myContactDataView",
+                "designer|userClassName": "onDataviewItemTap"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen44167",
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "myContactDataView",
+                "selector": "#myContactDataView",
+                "designer|userClassName": "myContactDataView"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen19190",
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "myDebtDataView",
+                "selector": "#myDebtDataView",
+                "designer|userClassName": "myDebtDataView"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen4353",
+            "type": "controllerroute",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "showContactPanel",
+                "implHandler": [
+                    "",
+                    "//switch to contact panel",
+                    "Ext.Viewport.getActiveItem().setActiveItem(2);"
+                ],
+                "url": "prey",
+                "designer|userClassName": "showContactPanel"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen5163",
+            "type": "controllerroute",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "showContactDetail",
+                "designer|params": [
+                    "id"
+                ],
+                "implHandler": [
+                    "/*this.showContactPanel();",
+                    "var dataItem = this.getMyContactDataView().getItems().getAt(0).getInnerItems()[id];",
+                    "",
+                    "if(dataItem) {",
+                    "//this.onDataviewItemTap(null,null,null, dataItem.getRecord());  ",
+                    "//location.hash = 'Prey/'+id;",
+                    "}*/"
+                ],
+                "url": "prey/:id",
+                "designer|userClassName": "showContactDetail"
+            },
+            "customConfigs": []
+        }
+    ]
+}

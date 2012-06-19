@@ -1,0 +1,135 @@
+{
+    "id": "ExtBox1-ext-gen31514",
+    "type": "controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "models": [
+            "Summary"
+        ],
+        "designer|userClassName": "Summary",
+        "summaryRecord": 0
+    },
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "summaryRecord",
+            "type": "number"
+        }
+    ],
+    "designerId": "5ed004d8-012c-4630-9207-238a99ceafdf",
+    "$viewOrder": 1,
+    "cn": [
+        {
+            "id": "ExtBox1-ext-gen34030",
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "SummaryContents",
+                "selector": "#SummaryContents",
+                "xtype": null,
+                "designer|userClassName": "SummaryContents"
+            },
+            "customConfigs": [
+                {
+                    "group": "(Custom Properties)",
+                    "name": "summaryRecord",
+                    "type": false
+                }
+            ]
+        },
+        {
+            "id": "ExtBox1-ext-gen18077",
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "updateSummary",
+                "implHandler": [
+                    "this.getSummaryRecord().set({",
+                    "    totalOwed: Ext.getStore('People').sum('balance')",
+                    "});"
+                ],
+                "designer|userClassName": "updateSummary"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen16843",
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "launch",
+                "implHandler": [
+                    "this.getSummaryContents().setRecord(this.getSummaryRecord());",
+                    "",
+                    "Ext.getStore('People').load(function(){",
+                    "    this.updateSummary();",
+                    "",
+                    "}, this);"
+                ],
+                "designer|userClassName": "launch"
+            },
+            "customConfigs": [],
+            "iconCls": "icon-basic-function"
+        },
+        {
+            "id": "ExtBox1-ext-gen28313",
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "applySummaryRecord",
+                "designer|params": [
+                    "summaryRecord"
+                ],
+                "implHandler": [
+                    "//if summary doesn't exist",
+                    "if (!summaryRecord){",
+                    "    summaryRecord = Ext.create('Payback.model.Summary');",
+                    "}",
+                    "return summaryRecord;"
+                ],
+                "designer|userClassName": "applySummaryRecord"
+            },
+            "customConfigs": []
+        },
+        {
+            "id": "ExtBox1-ext-gen8373",
+            "type": "controllerroute",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "showSummaryPanel",
+                "implHandler": [
+                    "",
+                    "//switch to summary panel",
+                    "Ext.Viewport.getActiveItem().setActiveItem(0);"
+                ],
+                "url": "summary",
+                "designer|userClassName": "showSummaryPanel"
+            },
+            "customConfigs": []
+        }
+    ]
+}
